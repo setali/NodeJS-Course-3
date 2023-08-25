@@ -13,7 +13,9 @@ const writeableStream = new Stream.Writable({
 })
 
 const readableStream = new Stream.Readable({
-  read: () => {}
+  read: size => {
+    console.log(size)
+  }
 })
 
 readableStream.pipe(writeableStream)
@@ -34,8 +36,10 @@ const chunkSize = 2 ** 10 // 1024B   => 1KB
 
 const chunkCount = Math.ceil(data.length / chunkSize)
 
+console.log(chunkCount)
+
 for (let i = 0; i < chunkCount; i++) {
-  const chunk = data.slice(i * chunkSize, (i + 1) * chunkSize)
+  const chunk = data.subarray(i * chunkSize, (i + 1) * chunkSize)
   readableStream.push(chunk)
 }
 
