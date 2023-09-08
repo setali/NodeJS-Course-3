@@ -2,6 +2,9 @@ import express from 'express'
 import routes from './routes'
 import errorHandler from './middlewares/error-handler'
 import path from 'path'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express()
 

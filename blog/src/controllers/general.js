@@ -1,4 +1,10 @@
+import { NotFoundError } from '../utils/errors'
+
 export function home (req, res) {
+  // throw new Error('Error')
+  // throw new NotFoundError()
+  // a + 2
+
   return res.render('index', {
     title: 'Home Page',
     content: 'Home Page Content'
