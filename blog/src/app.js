@@ -1,18 +1,14 @@
 import express from 'express'
 import routes from './routes'
+import errorHandler from './middlewares/error-handler'
 
 const app = express()
 
+app.use(express.static('public'))
+
 app.use(routes)
 
-app.all('*', (req, res) => {
-  res.status(404).send('Not Found')
-})
-
-app.use((err, req, res, next) => {
-  console.log(err.message)
-  res.status(400).send(err.message)
-})
+app.use(errorHandler)
 
 const port = 3000
 
