@@ -1,8 +1,6 @@
 import Article from '../../models/article'
 import { BadRequestError, NotFoundError } from '../../utils/errors'
 
-const articles = []
-
 class ArticleController {
   list (req, res) {
     const articles = Article.findAll()
