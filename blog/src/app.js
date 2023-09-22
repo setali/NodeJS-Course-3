@@ -3,6 +3,7 @@ import routes from './routes'
 import errorHandler from './middlewares/error-handler'
 import path from 'path'
 import dotenv from 'dotenv'
+import methodOverride from './middlewares/method-override'
 
 dotenv.config()
 
@@ -14,6 +15,8 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+app.use(methodOverride)
 
 app.use(routes)
 
