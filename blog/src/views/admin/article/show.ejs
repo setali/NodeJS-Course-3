@@ -16,9 +16,9 @@
 
   <hr />
 
-  <a href="/admin/article/<%= article.id %>/edit" class="action"
-    >Edit article</a
-  >
+  <a href="/admin/article/<%= article.id %>/edit" class="action">Edit</a>
+
+  <%- include('./article-delete-form.ejs', {article}) %>
 
   <a href="/admin/article" class="action">Back to list</a>
 </div>
