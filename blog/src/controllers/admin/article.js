@@ -2,8 +2,8 @@ import Article from '../../models/article'
 import { BadRequestError, NotFoundError } from '../../utils/errors'
 
 class ArticleController {
-  list (req, res) {
-    const articles = Article.findAll()
+  async list (req, res) {
+    const articles = await Article.findAll()
 
     res.render('admin/article/list', {
       title: 'Article list',
@@ -11,10 +11,12 @@ class ArticleController {
     })
   }
 
-  get (req, res) {
+  async get (req, res) {
     const { id } = req.params
 
-    const article = Article.find(+id)
+    const article = await Article.find(+id)
+
+    console.log(article)
 
     if (!article) {
       throw new NotFoundError('Article not found')
@@ -32,7 +34,7 @@ class ArticleController {
     })
   }
 
-  add (req, res) {
+  async add (req, res) {
     const { title, text } = req.body
 
     if (!title || !text) {
@@ -41,15 +43,15 @@ class ArticleController {
 
     const article = new Article({ title, text })
 
-    article.save()
+    await article.save()
 
     res.status(201).redirect('/admin/article')
   }
 
-  edit (req, res) {
+  async edit (req, res) {
     const { id } = req.params
 
-    const article = Article.find(+id)
+    const article = await Article.find(+id)
 
     if (!article) {
       throw new NotFoundError('Article not found')
@@ -61,7 +63,7 @@ class ArticleController {
     })
   }
 
-  update (req, res) {
+  async update (req, res) {
     const { id } = req.params
 
     const { title, text } = req.body
@@ -70,7 +72,7 @@ class ArticleController {
       throw new BadRequestError('Title and Text are required')
     }
 
-    const article = Article.find(+id)
+    const article = await Article.find(+id)
 
     if (!article) {
       throw new NotFoundError('Article not found')
@@ -79,22 +81,21 @@ class ArticleController {
     article.title = title
     article.text = text
 
-    article.save()
+    await article.save()
 
     res.redirect(`/admin/article/${id}`)
   }
 
-  remove (req, res) {
+  async remove (req, res) {
     const { id } = req.params
 
-    const article = Article.find(+id)
+    const article = await Article.find(+id)
 
     if (!article) {
       throw new NotFoundError('Article not found')
     }
 
-    // Article.remove(+id)
-    article.remove()
+    await article.remove()
 
     res.redirect('/admin/article')
   }

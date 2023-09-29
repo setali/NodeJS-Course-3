@@ -1,0 +1,12 @@
+<%- include('../layouts/main-top.ejs') %>
+
+<div>
+  <% for (const article of articles) { %>
+  <div>
+    <a href="/article/<%= article.id %>"> <%= article.title %> </a>
+    <hr />
+  </div>
+  <% } %>
+</div>
+
+<%- include('../layouts/main-bottom.ejs') %>
