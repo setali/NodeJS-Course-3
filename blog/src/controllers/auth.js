@@ -1,7 +1,12 @@
 import User from '../models/user'
 import { BadRequestError } from '../utils/errors'
+import bcrypt from 'bcrypt'
 
 class AuthController {
+  transformUser (user) {
+    user.set('password', undefined)
+  }
+
   loginPage (req, res) {
     res.render('auth/login', {
       title: 'Login'
@@ -17,10 +22,11 @@ class AuthController {
 
     const user = await User.findOne({ where: { username } })
 
-    if (!user || user.password !== password) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new BadRequestError('Credential error')
     }
 
+    this.transformUser(user)
     res.json(user)
   }
 
@@ -39,7 +45,8 @@ class AuthController {
 
     let user
     try {
-      user = await User.create({ username, email, password })
+      const hashedPassword = bcrypt.hashSync(password, 12)
+      user = await User.create({ username, email, password: hashedPassword })
     } catch (error) {
       if (error.original.code === 'ER_DUP_ENTRY') {
         throw new BadRequestError(
@@ -53,6 +60,8 @@ class AuthController {
       }
       console.log(error)
     }
+
+    this.transformUser(user)
 
     res.json(user)
   }
