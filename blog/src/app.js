@@ -4,6 +4,8 @@ import errorHandler from './middlewares/error-handler'
 import path from 'path'
 import methodOverride from './middlewares/method-override'
 import { sequelize } from './config/database'
+import session from 'express-session'
+import auth from './middlewares/auth'
 
 export async function bootstrap () {
   const app = express()
@@ -19,6 +21,16 @@ export async function bootstrap () {
 
   await sequelize.authenticate()
   await sequelize.sync()
+
+  app.use(
+    session({
+      secret: process.env.SECRET,
+      resave: false,
+      saveUninitialized: true
+    })
+  )
+
+  app.use(auth)
 
   app.use(routes)
 

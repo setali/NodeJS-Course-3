@@ -8,6 +8,11 @@ class AuthController {
   }
 
   loginPage (req, res) {
+    if (req.user) {
+      return res.redirect('/')
+    }
+
+    console.log(req.session)
     res.render('auth/login', {
       title: 'Login'
     })
@@ -27,10 +32,17 @@ class AuthController {
     }
 
     this.transformUser(user)
-    res.json(user)
+
+    req.session.user = user
+
+    res.redirect('/')
   }
 
   registerPage (req, res) {
+    if (req.user) {
+      return res.redirect('/')
+    }
+
     res.render('auth/register', {
       title: 'Register'
     })
@@ -64,6 +76,16 @@ class AuthController {
     this.transformUser(user)
 
     res.json(user)
+  }
+
+  logout (req, res) {
+    req.session.destroy(error => {
+      if (!error) {
+        res.redirect('/')
+      } else {
+        throw new BadRequestError('Logout error')
+      }
+    })
   }
 }
 

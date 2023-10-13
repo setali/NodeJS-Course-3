@@ -26,3 +26,7 @@ button.action {
   padding: 0;
   cursor: pointer;
 }
+
+.logout {
+  color: red;
+}
