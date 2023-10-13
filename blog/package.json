@@ -16,7 +16,8 @@
     "express-async-errors": "^3.1.1",
     "method-override": "^3.0.0",
     "mysql2": "^3.6.1",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "sequelize": "^6.33.0"
   },
   "devDependencies": {
     "@babel/core": "^7.22.15",
