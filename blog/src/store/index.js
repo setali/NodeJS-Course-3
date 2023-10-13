@@ -1,11 +1,12 @@
 import mysql from 'mysql2'
+console.log(process.env.DATABASE_HOST)
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'blog',
-  password: '123456',
-  port: 3303
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  database: process.env.DATABASE_NAME,
+  password: process.env.DATABASE_PASSWORD,
+  port: process.env.DATABASE_PORT
 })
 
 class BaseModel {
