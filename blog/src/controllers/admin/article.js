@@ -1,8 +1,6 @@
 import Article from '../../models/article'
 import { BadRequestError, NotFoundError } from '../../utils/errors'
 
-const PAGE_SIZE = 2
-
 class ArticleController {
   async list (req, res) {
     const { page = 1 } = req.query
@@ -11,11 +9,7 @@ class ArticleController {
       include: ['user']
     })
 
-    res.render('admin/article/list', {
-      title: 'Article list',
-      user: req.user,
-      ...data
-    })
+    res.json(data)
   }
 
   async get (req, res) {
@@ -27,18 +21,7 @@ class ArticleController {
       throw new NotFoundError('Article not found')
     }
 
-    res.render('admin/article/show', {
-      title: article.title,
-      article,
-      user: req.user
-    })
-  }
-
-  create (req, res) {
-    res.render('admin/article/create', {
-      title: 'Create Article',
-      user: req.user
-    })
+    res.json(article)
   }
 
   async add (req, res) {
@@ -52,23 +35,7 @@ class ArticleController {
 
     await article.save()
 
-    res.status(201).redirect('/admin/article')
-  }
-
-  async edit (req, res) {
-    const { id } = req.params
-
-    const article = await Article.find(+id)
-
-    if (!article) {
-      throw new NotFoundError('Article not found')
-    }
-
-    res.render('admin/article/edit', {
-      title: `Edit article: ${article.title}`,
-      article,
-      user: req.user
-    })
+    res.status(201).json(article)
   }
 
   async update (req, res) {
@@ -91,7 +58,7 @@ class ArticleController {
 
     await article.save()
 
-    res.redirect(`/admin/article/${id}`)
+    res.json(article)
   }
 
   async remove (req, res) {
@@ -105,7 +72,7 @@ class ArticleController {
 
     await article.remove()
 
-    res.redirect('/admin/article')
+    res.json(article)
   }
 }
 
