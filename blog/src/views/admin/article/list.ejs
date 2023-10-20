@@ -8,6 +8,7 @@
       <tr>
         <td>ID</td>
         <td>Title</td>
+        <td>Author</td>
         <td>Actions</td>
       </tr>
     </thead>
@@ -16,6 +17,7 @@
       <tr>
         <td><%= article.id %></td>
         <td><%= article.title %></td>
+        <td><%= article.user.username %></td>
         <td>
           <a href="/admin/article/<%= article.id %>" class="action inline">
             Show
