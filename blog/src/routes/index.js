@@ -1,6 +1,6 @@
 import express from 'express'
 import general from './general'
-import admin from './admin'
+import admin from './api/admin'
 import article from './article'
 import auth from './auth'
 import api from './api'
