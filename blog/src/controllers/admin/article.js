@@ -1,14 +1,26 @@
 import Article from '../../models/article'
 import { BadRequestError, NotFoundError } from '../../utils/errors'
 
+const PAGE_SIZE = 2
+
 class ArticleController {
   async list (req, res) {
-    const articles = await Article.findAll({ include: ['user'] })
+    const { page = 1 } = req.query
+
+    const { count: total, rows: articles } = await Article.findAndCountAll({
+      include: ['user'],
+      limit: PAGE_SIZE,
+      order: [['id', 'DESC']],
+      offset: (page - 1) * PAGE_SIZE
+    })
 
     res.render('admin/article/list', {
       title: 'Article list',
       articles,
-      user: req.user
+      user: req.user,
+      total,
+      page: +page,
+      pages: Math.ceil(total / PAGE_SIZE)
     })
   }
 
