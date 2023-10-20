@@ -19,11 +19,45 @@ function logQuery (query) {
 }
 
 export class BaseModel extends Model {
+  static DEFAULT_PAGE_SIZE = 2
+
   static find (id, options) {
     return this.findByPk(id, options)
   }
 
   remove () {
     return this.destroy()
+  }
+
+  static async findPaginate (page = 1, options = {}) {
+    page = +page
+
+    const {
+      limit = this.DEFAULT_PAGE_SIZE,
+      offset = (page - 1) * limit,
+      ...otherOptions
+    } = options
+
+    const { count: total, rows: items } = await this.findAndCountAll({
+      limit,
+      offset,
+      order: [['id', 'DESC']],
+      ...otherOptions
+    })
+
+    const pages = Math.ceil(total / limit)
+
+    return {
+      items,
+      total,
+      page,
+      pages,
+      limit,
+      offset,
+      hasPervPage: page > 1,
+      hasNextPage: page < pages,
+      pervPage: page - 1 || null,
+      nextPage: page < pages ? page + 1 : null
+    }
   }
 }

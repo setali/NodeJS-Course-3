@@ -1,26 +1,16 @@
 import Article from '../models/article'
 import { NotFoundError } from '../utils/errors'
 
-const PAGE_SIZE = 3
-
 class ArticleController {
   async list (req, res) {
     const { page = 1 } = req.query
 
-    const { count: total, rows: articles } = await Article.findAndCountAll({
-      include: ['user'],
-      limit: PAGE_SIZE,
-      order: [['id', 'DESC']],
-      offset: (page - 1) * PAGE_SIZE
-    })
+    const data = await Article.findPaginate(page, { limit: 4 })
 
     res.render('article/list', {
       title: 'Articles',
-      articles,
       user: req.user,
-      total,
-      page: +page,
-      pages: Math.ceil(total / PAGE_SIZE)
+      ...data
     })
   }
 
