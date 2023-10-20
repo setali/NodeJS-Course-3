@@ -24,7 +24,9 @@ class AuthController {
       throw new BadRequestError('username and password is required!')
     }
 
-    const user = await User.findOne({ where: { username } })
+    const user = await User.scope('withPassword').findOne({
+      where: { username }
+    })
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new BadRequestError('Credential error')

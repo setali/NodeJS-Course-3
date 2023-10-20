@@ -1,5 +1,5 @@
-import Article from '../../models/article'
-import { BadRequestError, NotFoundError } from '../../utils/errors'
+import Article from '../../../models/article'
+import { BadRequestError, NotFoundError } from '../../../utils/errors'
 
 class ArticleController {
   async list (req, res) {

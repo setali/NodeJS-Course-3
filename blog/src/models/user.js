@@ -22,7 +22,15 @@ User.init(
   },
   {
     sequelize,
-    modelName: 'user'
+    modelName: 'user',
+    defaultScope: {
+      attributes: {
+        exclude: ['password']
+      }
+    },
+    scopes: {
+      withPassword: {}
+    }
   }
 )
 
