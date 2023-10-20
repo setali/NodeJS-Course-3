@@ -12,7 +12,6 @@ class AuthController {
       return res.redirect('/')
     }
 
-    console.log(req.session)
     res.render('auth/login', {
       title: 'Login'
     })
@@ -70,7 +69,6 @@ class AuthController {
         //   throw new BadRequestError('email is required')
         // }
       }
-      console.log(error)
     }
 
     this.transformUser(user)

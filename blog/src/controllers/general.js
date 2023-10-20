@@ -1,6 +1,4 @@
 export function home (req, res) {
-  console.log(req.session.user)
-
   return res.render('index', {
     title: 'Home Page',
     content: 'Home Page Content',

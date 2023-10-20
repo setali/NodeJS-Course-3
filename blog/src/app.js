@@ -6,6 +6,8 @@ import methodOverride from './middlewares/method-override'
 import { sequelize } from './config/database'
 import session from 'express-session'
 import auth from './middlewares/auth'
+import RedisStore from 'connect-redis'
+import Redis from 'ioredis'
 
 export async function bootstrap () {
   const app = express()
@@ -22,8 +24,13 @@ export async function bootstrap () {
   await sequelize.authenticate()
   await sequelize.sync()
 
+  const redisClient = new Redis(6083)
+
+  const store = new RedisStore({ client: redisClient })
+
   app.use(
     session({
+      store,
       secret: process.env.SECRET,
       resave: false,
       saveUninitialized: true
