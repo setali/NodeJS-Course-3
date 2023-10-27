@@ -1,8 +1,13 @@
-export function home (req, res) {
+import Article from '../models/article'
+
+export async function home (req, res) {
+  const articles = await Article.findAll({ limit: 4, order: [['id', 'desc']] })
+
   return res.render('index', {
     title: 'Home Page',
     content: 'Home Page Content',
-    user: req.user
+    user: req.user,
+    articles
   })
 }
 
