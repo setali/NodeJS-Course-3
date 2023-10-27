@@ -1,6 +1,7 @@
 import User from '../models/user'
 import { BadRequestError } from '../utils/errors'
 import bcrypt from 'bcrypt'
+import { log } from '../utils/logger'
 
 class AuthController {
   transformUser (user) {
@@ -35,6 +36,11 @@ class AuthController {
     this.transformUser(user)
 
     req.session.user = user
+
+    log({
+      message: 'user:login',
+      metadata: { user: { ...user, password: undefined } }
+    })
 
     res.redirect('/')
   }

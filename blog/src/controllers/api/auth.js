@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import User from '../../models/user'
 import bcrypt from 'bcrypt'
 import { BadRequestError } from '../../utils/errors'
+import { log } from '../../utils/logger'
 
 class AuthController {
   async login (req, res) {
@@ -26,6 +27,11 @@ class AuthController {
         expiresIn: '10000s'
       }
     )
+
+    log({
+      message: 'user:api-login',
+      metadata: { user: { ...user, password: undefined } }
+    })
 
     res.json({
       token,

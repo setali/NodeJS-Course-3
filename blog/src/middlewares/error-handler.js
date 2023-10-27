@@ -1,7 +1,15 @@
 import { JsonSchemaValidation } from 'express-jsonschema'
+import { log } from '../utils/logger'
 
 export default (err, req, res, next) => {
   console.log(err.message)
+  const status = err.status ?? 500
+
+  log({
+    level: 'error',
+    message: err.message,
+    metadata: { user: req.user, url: req.url, status }
+  })
 
   if (err instanceof JsonSchemaValidation) {
     return res.status(400).json({
@@ -10,8 +18,6 @@ export default (err, req, res, next) => {
       fields: err.validations
     })
   }
-
-  const status = err.status ?? 500
 
   const message =
     err.status < 500 || process.env.NODE_ENV === 'development'
