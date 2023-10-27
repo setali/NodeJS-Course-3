@@ -23,10 +23,9 @@ class AuthController {
       { id: user.id, username: username },
       process.env.JWT_SECRET,
       {
-        expiresIn: '1000s'
+        expiresIn: '10000s'
       }
     )
-
 
     res.json({
       token,
