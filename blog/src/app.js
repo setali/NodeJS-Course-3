@@ -45,7 +45,7 @@ export async function bootstrap () {
   app.use(errorHandler)
 
   app.listen(process.env.PORT, () => {
-    console.clear()
+    // console.clear()
     console.log(`Server is running on port ${process.env.PORT}`)
   })
 }

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node src/index.js",
+    "start": "nodemon --exec babel-node --trace-warnings src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -25,7 +25,8 @@
     "mysql2": "^3.6.1",
     "pug": "^3.0.2",
     "sequelize": "^6.33.0",
-    "winston": "^3.11.0"
+    "winston": "^3.11.0",
+    "winston-mongodb": "^5.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.22.15",
