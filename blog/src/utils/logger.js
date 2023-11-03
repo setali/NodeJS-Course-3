@@ -1,15 +1,17 @@
 import winston from 'winston'
 import 'winston-mongodb'
 
-const logger = winston.createLogger({
+export const mongoTransporter = new winston.transports.MongoDB({
+  db: process.env.MONGO_URI,
+  collection: 'log'
+})
+
+export const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
   transports: [
     new winston.transports.File({ filename: 'errors.log', level: 'error' }),
-    new winston.transports.MongoDB({
-      db: process.env.MONGO_URI,
-      collection: 'log'
-    })
+    mongoTransporter
   ]
 })
 
