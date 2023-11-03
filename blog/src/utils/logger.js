@@ -1,7 +1,6 @@
 import winston from 'winston'
 import 'winston-mongodb'
 
-console.log(process.env.MONGO_URI)
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
@@ -15,7 +14,7 @@ const logger = winston.createLogger({
 })
 
 export function log (options) {
-  if (options.metadata?.user?.dataValues) {
+  if (typeof options.metadata?.user?.toJSON === 'function') {
     options.metadata.user = options.metadata.user.toJSON()
   }
 
